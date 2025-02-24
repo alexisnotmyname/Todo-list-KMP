@@ -46,7 +46,6 @@ fun TodoListScreenRoot(
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    println("State:$state")
     TodoListScreen(
         modifier = modifier
             .fillMaxSize(),
@@ -63,7 +62,6 @@ fun TodoListScreen(
     onAction: (TodoListAction) -> Unit,
 ) {
     val todoList = state.todoList
-    println("TodoListScreen:$todoList")
     var showModalBottomSheet by rememberSaveable { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf(TodoItem()) }
     var isEditTask by remember { mutableStateOf(false) }
@@ -154,11 +152,12 @@ fun TodoListScreen(
                     isEditTask = false
                 },
                 onSaveClick = { todo, date ->
-                    selectedItem = selectedItem.copy(title = todo, dateTimeDue = date)
                     if(isEditTask) {
+                        selectedItem = selectedItem.copy(title = todo, dateTimeDue = date)
                         onAction(TodoListAction.OnEditTodo(selectedItem))
                         isEditTask = false
                     } else {
+                        selectedItem = TodoItem(title = todo, dateTimeDue = date)
                         onAction(TodoListAction.OnAddTodo(selectedItem))
                     }
                     showModalBottomSheet = false

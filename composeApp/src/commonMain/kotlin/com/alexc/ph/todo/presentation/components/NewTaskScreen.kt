@@ -45,7 +45,6 @@ fun NewTaskScreen(
 ) {
     var input by remember { mutableStateOf(value) }
     val dateNow = getCurrentDateMillis()
-    println("ALEX dateNow: ${dateNow}")
     var selectedDate by remember { mutableLongStateOf(dateNow) }
 
     Box(

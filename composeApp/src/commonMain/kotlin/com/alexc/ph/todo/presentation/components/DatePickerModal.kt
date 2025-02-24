@@ -63,7 +63,6 @@ fun DatePickerModal(
     onDateSelected: (Long?) -> Unit,
     onDismiss: () -> Unit
 ) {
-    println("datePickerModal: ${date?.millisToDateFormat()}")
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = date
     )

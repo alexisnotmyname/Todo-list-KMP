@@ -28,7 +28,6 @@ class TodoListViewModel(
     private fun getTodoList() {
         todoListRepository.myTodoList
             .onEach { todoList ->
-                println(todoList)
                 _state.update {
                     it.copy(todoList = todoList)
                 }
@@ -40,7 +39,6 @@ class TodoListViewModel(
     fun onAction(action: TodoListAction) {
         when(action) {
             is TodoListAction.OnAddTodo -> {
-                println("OnAddTodo")
                 val newTodo = action.todo.copy(order = _state.value.todoList.lastIndex + 1)
                 viewModelScope.launch {
                     todoListRepository.add(newTodo)
@@ -84,7 +82,6 @@ class TodoListViewModel(
                 }
             }
             is TodoListAction.OnEditTodo -> {
-                println("OnEditTodo ${action.todo}")
                 viewModelScope.launch {
                     todoListRepository.update(action.todo)
                     _state.update {
