@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,24 +27,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.alexc.ph.core.presentation.components.GenericTopAppBar
-import com.alexc.ph.core.presentation.getCurrentDateMillis
+import com.alexc.ph.todo.domain.TodoItem
 import org.jetbrains.compose.resources.stringResource
 import todoappkmp.composeapp.generated.resources.Res
-import todoappkmp.composeapp.generated.resources.add_new_task
 import todoappkmp.composeapp.generated.resources.back
 import todoappkmp.composeapp.generated.resources.task_name
 
 @Composable
 fun NewTaskScreen(
-    value: String = "",
     title: String = "",
+    todoItem: TodoItem? = null,
     navigateBack: () -> Unit,
-    onSaveClick: (String, Long) -> Unit,
+    onSaveClick: (String, Long?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var input by remember { mutableStateOf(value) }
-    val dateNow = getCurrentDateMillis()
-    var selectedDate by remember { mutableLongStateOf(dateNow) }
+    var input by remember { mutableStateOf(todoItem?.title ?: "") }
+    var selectedDate by remember { mutableStateOf(todoItem?.dateTimeDue) }
 
     Box(
         modifier = modifier,
@@ -108,7 +105,7 @@ fun NewTaskScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 DateAssistChip(
-                    date = dateNow,
+                    date = selectedDate,
                     onDateSelected = {
                         selectedDate = it
                     }

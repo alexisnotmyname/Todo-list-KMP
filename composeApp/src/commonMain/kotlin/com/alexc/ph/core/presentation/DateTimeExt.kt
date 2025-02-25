@@ -8,9 +8,10 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
 
 fun getCurrentDateMillis(): Long {
-    val nowInstant = Clock.System.now()
-    val today: LocalDate = nowInstant.toLocalDateTime(TimeZone.currentSystemDefault()).date
-    return today.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+//    val nowInstant = Clock.System.now()
+//    val today: LocalDate = nowInstant.toLocalDateTime(TimeZone.currentSystemDefault()).date
+//    return today.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+    return DateTime.getCurrentTimeInMilliSeconds()
 }
 
 fun Long.millisToDateFormat(format: String = "E, MMM dd"): String {

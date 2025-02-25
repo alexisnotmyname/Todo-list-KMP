@@ -14,7 +14,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,15 +23,15 @@ import com.alexc.ph.core.presentation.millisToDateFormat
 
 @Composable
 fun DateAssistChip(
-    date: Long,
+    date: Long?,
     onDateSelected: (Long) -> Unit = {},
 ) {
-    var selectedDate by remember { mutableLongStateOf(date) }
+    var selectedDate by remember { mutableStateOf(date) }
     var showModal by remember { mutableStateOf(false) }
 
     AssistChip(
         onClick = { showModal = true },
-        label = { Text(selectedDate.millisToDateFormat()) },
+        label = { Text(selectedDate?.millisToDateFormat() ?: "Set Due Date") },
         leadingIcon = {
             Icon(
                 Icons.Filled.DateRange,
@@ -44,7 +43,7 @@ fun DateAssistChip(
 
     if (showModal) {
         DatePickerModal(
-            date = selectedDate,
+            selectedDateMillis = selectedDate,
             onDateSelected = { selectedDateMillis ->
                 selectedDateMillis?.let {
                     selectedDate = it
@@ -59,12 +58,12 @@ fun DateAssistChip(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerModal(
-    date: Long? = null,
+    selectedDateMillis: Long? = null,
     onDateSelected: (Long?) -> Unit,
     onDismiss: () -> Unit
 ) {
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = date
+        initialSelectedDateMillis = selectedDateMillis
     )
 
     DatePickerDialog(

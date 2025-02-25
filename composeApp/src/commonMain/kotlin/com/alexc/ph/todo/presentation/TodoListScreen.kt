@@ -145,7 +145,7 @@ fun TodoListScreen(
             }
         ) {
             NewTaskScreen(
-                value = selectedItem.title,
+                todoItem = if(isEditTask) selectedItem else null,
                 title = if(isEditTask) stringResource(Res.string.edit_task) else stringResource(Res.string.add_new_task),
                 navigateBack = {
                     showModalBottomSheet = false
@@ -153,11 +153,17 @@ fun TodoListScreen(
                 },
                 onSaveClick = { todo, date ->
                     if(isEditTask) {
-                        selectedItem = selectedItem.copy(title = todo, dateTimeDue = date)
+                        selectedItem = selectedItem.copy(
+                            title = todo,
+                            dateTimeDue = date
+                        )
                         onAction(TodoListAction.OnEditTodo(selectedItem))
                         isEditTask = false
                     } else {
-                        selectedItem = TodoItem(title = todo, dateTimeDue = date)
+                        selectedItem = TodoItem(
+                            title = todo,
+                            dateTimeDue = date
+                        )
                         onAction(TodoListAction.OnAddTodo(selectedItem))
                     }
                     showModalBottomSheet = false
